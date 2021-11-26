@@ -16,12 +16,17 @@ public class JsonRegenBlock {
     @SerializedName(value = "temporary_material")
     public String tempMaterial;
 
+    @SerializedName(value = "reset_time_seconds")
+    public int regenTime;
+
     public JsonRegenBlock(final Material regenMaterial,
                           final World regenWorld,
-                          final Material tempMaterial) {
+                          final Material tempMaterial,
+                          final int regenTime) {
         this.regenMaterial = regenMaterial.name();
         this.regenWorldName = regenWorld.getName();
         this.tempMaterial = tempMaterial.name();
+        this.regenTime = regenTime;
     }
 
     public final Material getRegenMaterial() {
@@ -32,5 +37,11 @@ public class JsonRegenBlock {
         return Bukkit.getWorld(this.regenWorldName);
     }
 
-    public final
+    public final Material getTemporaryMaterial() {
+        return Material.valueOf(this.tempMaterial);
+    }
+
+    public final int getRegenTime() {
+        return this.regenTime;
+    }
 }
