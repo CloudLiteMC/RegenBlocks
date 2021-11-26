@@ -31,6 +31,7 @@ public class RegenBlock {
             @Override
             public void run() {
                 RegenBlock.this.cancel();
+                manager.removeRegenBlock(RegenBlock.this);
             }
         }.runTaskLater(RegenBlocks.INSTANCE, 20L * this.regenBlock.getRegenTime());
     }
@@ -46,6 +47,9 @@ public class RegenBlock {
     public final void cancel() {
         this.runningTask.cancel();
         this.block.setType(regenBlock.getRegenMaterial());
-        manager.removeRegenBlock(this);
+    }
+
+    public final boolean isCancelled() {
+        return this.runningTask.isCancelled();
     }
 }

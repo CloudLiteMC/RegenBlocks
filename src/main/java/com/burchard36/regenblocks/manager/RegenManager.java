@@ -30,6 +30,10 @@ public class RegenManager {
         this.blocks.clear();
     }
 
+    public final boolean regenBlockExists(final Location location) {
+        return this.blocks.get(location) != null;
+    }
+
     public final void addRegenBlock(final RegenBlock block) {
         this.blocks.putIfAbsent(block.getBlockLocation(), block);
     }

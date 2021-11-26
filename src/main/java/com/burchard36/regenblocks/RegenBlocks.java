@@ -15,19 +15,16 @@ public final class RegenBlocks extends JavaPlugin implements Api {
     public static RegenBlocks INSTANCE;
     private ApiLib lib;
     private RegenManager regenManager;
-    private ReloadCommand command;
 
     @Override
     public void onEnable() {
+        INSTANCE = this;
         this.loadPlugin(false);
     }
 
     @Override
     public void onDisable() {
         this.regenManager.serverShutdown();
-        this.regenManager = null;
-        INSTANCE = null;
-
     }
 
     private void loadPlugin(final boolean isReload) {
@@ -38,10 +35,9 @@ public final class RegenBlocks extends JavaPlugin implements Api {
         this.lib.getPluginDataManager().loadDataFileToMap(Configs.DEFAULT, "default_config", new DefaultConfig(this, "/config.json"));
         this.regenManager = new RegenManager(this);
 
-        this.command = new ReloadCommand(this);
         if (!isReload) {
-            INSTANCE = this;
-            ApiLib.registerCommand(this.command.getCommand());
+            ReloadCommand command = new ReloadCommand(this);
+            ApiLib.registerCommand(command.getCommand());
         }
     }
 

@@ -22,6 +22,11 @@ public class RegenEvents implements Listener {
         final Player breakingPlayer = event.getPlayer();
         final DefaultConfig config = manager.getConfig();
 
+        if (this.manager.regenBlockExists(blockBroken.getLocation())) {
+            event.setCancelled(true);
+            return;
+        }
+
         if (breakingPlayer.hasPermission("regenblocks.break") && breakingPlayer.isSneaking()) return;
 
         if (config.canRegenMaterial(blockBroken.getType())) {
