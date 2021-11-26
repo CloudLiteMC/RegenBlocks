@@ -1,0 +1,36 @@
+package com.burchard36.regenblocks.config;
+
+import com.google.gson.annotations.SerializedName;
+import org.bukkit.Bukkit;
+import org.bukkit.Material;
+import org.bukkit.World;
+
+public class JsonRegenBlock {
+
+    @SerializedName(value = "regenerating_material")
+    public String regenMaterial;
+
+    @SerializedName(value = "world_name")
+    public String regenWorldName;
+
+    @SerializedName(value = "temporary_material")
+    public String tempMaterial;
+
+    public JsonRegenBlock(final Material regenMaterial,
+                          final World regenWorld,
+                          final Material tempMaterial) {
+        this.regenMaterial = regenMaterial.name();
+        this.regenWorldName = regenWorld.getName();
+        this.tempMaterial = tempMaterial.name();
+    }
+
+    public final Material getRegenMaterial() {
+        return Material.valueOf(this.regenMaterial);
+    }
+
+    public final World getRegenWorld() {
+        return Bukkit.getWorld(this.regenWorldName);
+    }
+
+    public final
+}

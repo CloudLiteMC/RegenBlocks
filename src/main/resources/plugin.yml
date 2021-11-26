@@ -1,0 +1,5 @@
+name: RegenBlocks
+version: '${project.version}'
+main: com.burchard36.regenblocks.RegenBlocks
+api-version: 1.17
+description: Regenerates blocks that get broken in minecraft!
