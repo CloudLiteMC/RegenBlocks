@@ -11,8 +11,11 @@ import com.burchard36.regenblocks.manager.RegenManager;
 import com.burchard36.regenblocks.worldguard.FlagListener;
 import com.burchard36.regenblocks.worldguard.GuardFlag;
 import org.bukkit.Bukkit;
+import org.bukkit.entity.Villager;
 import org.bukkit.event.HandlerList;
 import org.bukkit.plugin.java.JavaPlugin;
+
+import java.util.UUID;
 
 import static com.burchard36.ApiLib.convert;
 
@@ -35,6 +38,7 @@ public final class RegenBlocks extends JavaPlugin implements Api {
 
         ReloadCommand command = new ReloadCommand(this);
         ApiLib.registerCommand(command.getCommand());
+        this.flagListener = new FlagListener(this);
         Bukkit.getServer().getPluginManager().registerEvents(this.flagListener, this);
     }
 
@@ -42,7 +46,6 @@ public final class RegenBlocks extends JavaPlugin implements Api {
     public void onLoad() {
         Bukkit.getLogger().info(convert("Loading world guard flags. . ."));
         final GuardFlag flags = new GuardFlag(this);
-        this.flagListener = new FlagListener();
     }
 
     @Override
