@@ -8,6 +8,10 @@ import com.burchard36.regenblocks.commands.ReloadCommand;
 import com.burchard36.regenblocks.config.Configs;
 import com.burchard36.regenblocks.config.DefaultConfig;
 import com.burchard36.regenblocks.manager.RegenManager;
+import com.burchard36.regenblocks.worldguard.FlagListener;
+import com.burchard36.regenblocks.worldguard.GuardFlag;
+import org.bukkit.Bukkit;
+import org.bukkit.event.HandlerList;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public final class RegenBlocks extends JavaPlugin implements Api {
@@ -15,19 +19,11 @@ public final class RegenBlocks extends JavaPlugin implements Api {
     public static RegenBlocks INSTANCE;
     private ApiLib lib;
     private RegenManager regenManager;
+    private FlagListener flagListener;
 
     @Override
     public void onEnable() {
         INSTANCE = this;
-        this.loadPlugin(false);
-    }
-
-    @Override
-    public void onDisable() {
-        this.regenManager.serverShutdown();
-    }
-
-    private void loadPlugin(final boolean isReload) {
         this.lib = new ApiLib().initializeApi(this);
         final PluginJsonWriter writer = this.lib.getPluginDataManager().getJsonWriter();
         this.lib.getPluginDataManager().registerPluginMap(Configs.DEFAULT, new PluginDataMap(writer));
@@ -35,15 +31,30 @@ public final class RegenBlocks extends JavaPlugin implements Api {
         this.lib.getPluginDataManager().loadDataFileToMap(Configs.DEFAULT, "default_config", new DefaultConfig(this, "/config.json"));
         this.regenManager = new RegenManager(this);
 
-        if (!isReload) {
-            ReloadCommand command = new ReloadCommand(this);
-            ApiLib.registerCommand(command.getCommand());
-        }
+        ReloadCommand command = new ReloadCommand(this);
+        ApiLib.registerCommand(command.getCommand());
+    }
+
+    @Override
+    public void onLoad() {
+        final GuardFlag flags = new GuardFlag(this);
+        this.flagListener = new FlagListener();
+        Bukkit.getServer().getPluginManager().registerEvents(this.flagListener, this);
+    }
+
+    @Override
+    public void onDisable() {
+        this.regenManager.serverShutdown();
+        this.regenManager = null;
+        this.lib = null;
+
+        HandlerList.unregisterAll(this.flagListener);
+
     }
 
     public void reloadPlugin() {
         this.onDisable();
-        this.loadPlugin(true);
+        this.onEnable();
     }
 
     public DefaultConfig getDefaultConfig() {

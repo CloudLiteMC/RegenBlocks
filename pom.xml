@@ -64,6 +64,11 @@
             <!-- This has "www" because: https://stackoverflow.com/questions/54928706/error-in-library-built-with-jitpack-unable-to-resolve-dependency-for-appdebu -->
             <url>https://www.jitpack.io</url>
         </repository>
+        <!-- sk89q's Repo -->
+        <repository>
+            <id>sk89q-repo</id>
+            <url>https://maven.enginehub.org/repo/</url>
+        </repository>
     </repositories>
 
     <dependencies>
@@ -78,8 +83,24 @@
         <dependency>
             <groupId>com.github.Burchard36</groupId>
             <artifactId>BurchAPI</artifactId>
-            <version>01-AC-04</version>
+            <version>01-AD-00</version>
             <scope>compile</scope>
+        </dependency>
+
+        <!-- WorldGuard -->
+        <dependency>
+            <groupId>com.sk89q.worldguard</groupId>
+            <artifactId>worldguard-bukkit</artifactId>
+            <version>7.0.6</version>
+            <scope>provided</scope>
+        </dependency>
+
+        <!-- World Edit -->
+        <dependency>
+            <groupId>com.sk89q.worldedit</groupId>
+            <artifactId>worldedit-core</artifactId>
+            <version>7.2.0-SNAPSHOT</version>
+            <scope>provided</scope>
         </dependency>
     </dependencies>
 </project>
